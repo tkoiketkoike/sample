@@ -1,0 +1,20 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "description": "for sample",
+  "main": "index.js",
+  "scripts": {
+	"start": "node index.js"
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tkoiketkoike/sample.git"
+  },
+  "author": "koike take",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tkoiketkoike/sample/issues"
+  },
+  "homepage": "https://github.com/tkoiketkoike/sample#readme"
+}
