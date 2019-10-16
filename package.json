@@ -1,6 +1,6 @@
 {
   "name": "sample",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "for sample",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,12 @@
     "type": "git",
     "url": "https://github.com/tkoiketkoike/sample.git"
   },
-  "author": "koike take",
+  "author": "",
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/tkoiketkoike/sample/issues"
