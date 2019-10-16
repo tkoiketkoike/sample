@@ -4,7 +4,7 @@
   "description": "for sample",
   "main": "index.js",
   "scripts": {
-	"start": "node index.js"
+    "start": "node index.js",
     "test": "jest"
   },
   "repository": {
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/tkoiketkoike/sample/issues"
   },
-  "homepage": "https://github.com/tkoiketkoike/sample#readme"
+  "homepage": "https://github.com/tkoiketkoike/sample#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
