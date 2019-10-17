@@ -11,37 +11,33 @@ var MAX = 10;			// ç≈ëÂï€ë∂êî
 
 // W
 exports.set = function(obj) {
-	console.log("welcome set...");
-	var res = {"result":'NG'}
+//	var res = {"result":'NG'};
+	var res = 'NG';
+	
+	if (obj.name == "")
+		return res;
 	
 	try {
 		var db = JSON.parse(fs.readFileSync(dbfile, 'utf8'));
-		
 	}
 	catch(err) {
 		console.log('1st set..');
 		// ÇÕÇ∂ÇﬂÇƒÇÃÉZÉbÉg
 		var db = [];
-//		db.push(obj);
-//		fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
-//		res.result = 'OK';
 	}
 	
-	console.log('1 db=' + db +'  db.len='+db.length);
-	
 	if ((0 < db.length) && (db.length < MAX)) {
-		console.log('diff ' + obj.name);
 		if (diff(obj.name, db) == true) {
 			// ìØñºÇÕìoò^ÇµÇ»Ç¢
 			return res;
 		}
 		
 		db.push(obj);
-		console.log('2 db=' + db +'  db.len='+db.length);
 		
 		fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
 		
-		res.result = 'OK';
+//		res.result = 'OK';
+		res = 'OK';
 	}
 	else {
 //		console.log('1st set..');
@@ -49,7 +45,8 @@ exports.set = function(obj) {
 //		var list = [];
 		db.push(obj);
 		fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
-		res.result = 'OK';
+//		res.result = 'OK';
+		res = 'OK';
 	}
 	
 	return res;

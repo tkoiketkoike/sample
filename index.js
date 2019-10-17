@@ -1,57 +1,35 @@
-// Node + Express
+// Sample Wab Application
+// -----------------------------------------
+// Server: Node.js + Express,js
+// Client: Knockout.js
 
 var express = require('express');
+var svrmodel = require('./svrmodel.js');
 var app = express();
-var http = require('http');
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/scripts'));
 
-
 var bodyParser = require('body-parser')
-//app.use(express.bodyParser());
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-// parse application/json
 app.use(bodyParser.json())
 
+// WEBサーバー起動
+var server = app.listen(80, function (){
+	console.log('started Node&Express:' + server.address().port);
+});
+//var http = require('http');
+//http.createServer(app).listen(80);
+//console.log('started node & express...');
 
-
-//var server = app.listen(80, function (){
-//	console.log('started express...' + server.address().port);
-//});
-http.createServer(app).listen(80);
-console.log('started node & express...' + http.port);
-
-var svrmodel = require('./svrmodel.js');
-
-
-//app.set('view engine', 'html');
-
-// lib
-//app.get("/viewModel.js", function(req, res, next){
-//	var stream = fs.createReadStream('./scripts/viewModel.js');
-//	res.writeHead(200, {'Content-Type': 'text/plain'});
-//	stream.pipe(res);
-//});
-//app.get("/model.js", function(req, res, next){
-//	var stream = fs.createReadStream('./scripts/model.js');
-//	res.writeHead(200, {'Content-Type': 'text/plain'});
-//	stream.pipe(res);
-//});
 
 // Root Page表示
-app.get('/', function(req, res) {
+app.get('/', function() {
 	// レンダリング
 	res.render('./index.html');
 });
 
-//function notFound(res) {
-//	res.statusCode = 404;
-//	res.end('Not Found');
-//}
 
-
-// WebAPI
+// 以下、WebAPI群
 app.get("/api/user/size", function(req, res, next){
     // 
     var cnt = svrmodel.count();
@@ -61,11 +39,7 @@ app.get("/api/user/size", function(req, res, next){
 });
 
 //var responseJson = '{ "results":[{"name":"yamada taro","age":44,"sex":"men","telnum":"000-000-0000","addrnum":"377-0000","addr":"Gunma Takasaki"},{"name":"suzuki jiro","age":24,"sex":"men","telnum":"000-020-0000","addrnum":"321-0000","addr":"Gunma Maebashi"}]}';
-app.get("/api/user/all", function(req, res, next){
-    // 
-//    console.log('index = ALL');
-//	res.send(responseJson);
-	
+app.get("/api/user/all", function(req, res){
 	res.send(svrmodel.get());
 });
 

@@ -1,10 +1,10 @@
 {
   "name": "sample",
   "version": "0.0.1",
-  "description": "sample for Uhuru",
+  "description": "sample web application",
   "main": "index.js",
   "scripts": {
-    "start" : "index.js",
+    "start": "index.js",
     "test": "jest"
   },
   "keywords": [
@@ -15,5 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0"
   }
 }
