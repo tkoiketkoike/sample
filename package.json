@@ -1,27 +1,18 @@
 {
   "name": "sample",
-  "version": "0.0.0",
-  "description": "for sample",
+  "version": "0.0.1",
+  "description": "sample for Uhuru",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start" : "index.js",
     "test": "jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tkoiketkoike/sample.git"
-  },
-  "author": "",
   "keywords": [
     "node",
-    "heroku",
     "express"
   ],
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tkoiketkoike/sample/issues"
-  },
-  "homepage": "https://github.com/tkoiketkoike/sample#readme",
   "dependencies": {
     "express": "^4.17.1"
   }
