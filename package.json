@@ -1,17 +1,17 @@
 {
   "name": "sample",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "sample web application",
   "main": "index.js",
   "scripts": {
-    "start": "index.js",
+    "start": "node index",
     "test": "jest"
   },
   "keywords": [
     "node",
     "express"
   ],
-  "author": "",
+  "author": "Koike",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
