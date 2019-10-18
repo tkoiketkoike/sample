@@ -27,7 +27,7 @@ workflows:
   build_deploy:
     jobs:
       - build
-      - depoly_heroku:
+      - deploy_heroku:
          requires:
            - build
 
