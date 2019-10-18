@@ -14,7 +14,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // WEBサーバー起動
-var server = app.listen(80, function (){
+//var server = app.listen(80, function (){
+var server = app.listen(process.env.PORT || 80, function (){
 	console.log('started Node&Express:' + server.address().port);
 });
 //var http = require('http');
