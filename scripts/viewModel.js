@@ -5,11 +5,11 @@
 var ViewModel = {
 	
 	model: Object.create(model),
-//	view: Object.create(view),
 	
 	// Properties
 	name: ko.observable(''),		// 名前
 	age: ko.observable(''),			// 年齢
+//    ageValues : [,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
 	sex: ko.observable(''),			// 性別
     sexValues : ["","MAN", "WOMAN"],
 	telnum: ko.observable(''),		// 電話番号
@@ -17,12 +17,8 @@ var ViewModel = {
 	addr: ko.observable(''),		// 
 	
 	now: ko.observable(0),			// 登録数
-	max: ko.observable('10'),		// 最大登録数
-	
+	max: ko.observable(10),			// 最大登録数
 	items: ko.observableArray([]),	// 表示アイテム
-	
-	
-	msg: ko.observable('---'),		// log
 	
 	// Methods
 	init: function() {
@@ -30,7 +26,6 @@ var ViewModel = {
 		// 件数リセット
 		var obj = this.model.getSize();
 		this.now(obj.size);
-		
 		console.info("record size = " + this.now());
 		
 		// アイテム取得
@@ -52,7 +47,10 @@ var ViewModel = {
 		req.addr = this.addr();
 		
 		var res = this.model.setRecord(req);
-		if (res.result !== "OK"){
+		if (res.result === "OK"){
+			this.clear();
+		}
+		else {
 			console.warn("create fail..");
 			return;
 		};
@@ -71,44 +69,52 @@ var ViewModel = {
 	},
 	
 	// 修正
-//	update: function() {
-//		// Check
-//		if (get(this.name) !== NULL){
-//			msg("name is exist..");
-//			return;
-//		}
-//		
-//		var obj = {};
-//		obj.name = this.name();
-//		obj.age = this.age();
-//		obj.sex = this.sex();
-//		obj.telnum = this.telnum();
-//		obj.addrnum = this.addrnum();
-//		obj.addr = this.addr();
-//		this.model.setRecord(obj);
-//	},
-	
-	get: function() {
-		var obj = this.model.getRecord();
-		if (obj !== NULL){
-			this.name(obj.name);
-			this.age(obj.age);
-			this.sex(obj.sex);
-			this.telnum(obj.telnum);
-			this.addrnum(obj.addrnum);
-			this.addr(obj.addr);
+	updateButton: function() {
+		// Check
+		if (this.name === ""){
+			console.warn("must");
+			return;
 		}
-		return obj;
+		
+		var obj = {};
+		obj.age = this.age();
+		obj.sex = this.sex();
+		obj.telnum = this.telnum();
+		obj.addrnum = this.addrnum();
+		obj.addr = this.addr();
+		
+		var res = this.model.updateRecord(this.name(), obj);
+		if (res.result === "OK"){
+			this.clear();
+		}
+		else {
+			console.warn("update fail..");
+			return;
+		};
+		
+		//reset
+		this.init();
 	},
+	
+//	get: function() {
+//		var obj = this.model.getRecord();
+//		if (obj !== NULL){
+//			this.name(obj.name);
+//			this.age(obj.age);
+//			this.sex(obj.sex);
+//			this.telnum(obj.telnum);
+//			this.addrnum(obj.addrnum);
+//			this.addr(obj.addr);
+//		}
+//		return obj;
+//	},
 	
 	getAll: function() {
 		this.items.removeAll();
 		var obj = this.model.getAll();
-		if(obj) {
-			console.info("getAll() = " + obj.results.length);
-			for (var i = 0; i < obj.results.length; i++) {
-				this.items.push(obj.results[i]);
-			}
+		console.info("getAll() = " + obj.results.length);
+		for (var i = 0; i < obj.results.length; i++) {
+			this.items.push(obj.results[i]);
 		}
 	},
 	
@@ -121,13 +127,22 @@ var ViewModel = {
 		ViewModel.telnum(item.telnum);
 		ViewModel.addrnum(item.addrnum);
 		ViewModel.addr(item.addr);
+	},
+	clear: function() {
+		this.name('');
+		this.age('');
+		this.sex('');
+		this.telnum('');
+		this.addrnum('');
+		this.addr('');
 	}
 };
 
 // ------------------------
 // Computed
+
 ViewModel.isRecordMax = ko.computed(function() {
-	return ViewModel.now() >= ViewModel.max();
+	return ViewModel.now() >= ViewModel.max;
 });
 
 ViewModel.isRecordEmpty = ko.computed(function() {

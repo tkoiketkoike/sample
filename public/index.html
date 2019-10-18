@@ -1,25 +1,33 @@
-<!DOCTYPE html><html lang="ja"><head>	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />	<meta charset="utf-8" />	    <!--script src="//code.jquery.com/jquery-1.10.2.min.js"></script-->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
-	    <script src="./model.js"></script>
-    <!--script src="./view.js"></script-->
-    <script src="viewModel.js"></script>
-		<title>Sample Code</title></head>
-<body>
-	<div>登録件数 <span data-bind='text: now'>&nbsp;</span> 件</div>
 	
+    <script src="./model.js"></script>
+    <script src="viewModel.js"></script>
+	
+	<title>Sample Code</title>
+</head>
+
+<body>
+	<div>登録件数 <span data-bind='text: now'>&nbsp;</span> /<span data-bind='text: max'>件</div>
 	
 	<br>
-	名前: <input data-bind="value: name" /><br>
+	氏名: <input data-bind="value: name" /><br>
 	年齢: <input data-bind="value: age" /><br>
+		<!--select data-bind="options: ageValues, value: age"></select><br-->
 	性別: <select data-bind="options: sexValues, value: sex"></select><br>
 	電話番号: <input data-bind="value: telnum" /><br>
 	郵便番号: <input data-bind="value: addrnum" /><br>
 	住所: <input data-bind="value: addr" /><br>
 	
 	<button data-bind='click: createButton, disable: isRecordMax'>登録</button>
+	<button data-bind='click: updateButton, disable: isRecordEmpty'>修正</button>
 	<button data-bind='click: deleteButton, disable: isRecordEmpty'>削除</button>
-	<!--button data-bind='click: updateButton>修正</button-->
 	
 	<!-- List -->
 	<br>
@@ -36,7 +44,6 @@
                 </tr>
             </thead>
             <tbody style="height:20px;" data-bind="foreach: items">
-                <!--tr data-bind="event:{click: $parent.selectRecord}, attr: {class: $data.selected() ? 'selected' : ''}"-->
                 <tr data-bind="event:{click: $parent.selectRecord}">
                     <td class="col-name" data-bind="text: $data.name"></td>
                     <td class="col-age" data-bind="text: $data.age"></td>

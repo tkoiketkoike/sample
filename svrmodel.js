@@ -5,13 +5,8 @@ var fs = require('fs');
 var dbfile = './USER';	// 保存ファイル
 var MAX = 10;			// 最大保存数
 
-//[
-//	{"name":"","age":0,"sex":"","telnum":"","addrnum":"","addr":""},
-//]
-
-// W
+// Create
 exports.set = function(obj) {
-//	var res = {"result":'NG'};
 	var res = 'NG';
 	
 	if (obj.name == "")
@@ -21,67 +16,55 @@ exports.set = function(obj) {
 		var db = JSON.parse(fs.readFileSync(dbfile, 'utf8'));
 	}
 	catch(err) {
-		console.log('1st set..');
-		// はじめてのセット
+		// 空
 		var db = [];
 	}
 	
-	if ((0 < db.length) && (db.length < MAX)) {
-		if (diff(obj.name, db) == true) {
+	if (0 < db.length) {
+		if ((MAX <= db.length) || (diff(obj.name, db) >= 0)) {
 			// 同名は登録しない
 			return res;
 		}
-		
-		db.push(obj);
-		
-		fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
-		
-//		res.result = 'OK';
-		res = 'OK';
 	}
-	else {
-//		console.log('1st set..');
-		// はじめてのセット
-//		var list = [];
-		db.push(obj);
-		fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
-//		res.result = 'OK';
-		res = 'OK';
-	}
+	db.push(obj);
+	fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
+	res = 'OK';
 	
 	return res;
 };
 
-// R
+// Get
 exports.get = function() {
-	var obj = {"results":[]};
+	var list = [];
 	
 	try {
 		var db = JSON.parse(fs.readFileSync(dbfile, 'utf8'));
-		obj.results = db;
+		list = db;
 	}
 	catch(err) {
 		//
 	}
-	return obj;
+	return list;
 };
 exports.count = function() {
-	var obj = {"size":0};
+	var cnt = 0;
 	
 	try {
 		var db = JSON.parse(fs.readFileSync(dbfile, 'utf8'));
-		obj.size = db.length;
+		cnt = db.length;
 	}
 	catch(err) {
 		//
 	}
-	return obj;
+	return cnt;
 };
 
-// Delete
-exports.delete = function(name) {
-	console.log("welcome delete...");
-	var res = {"result":'NG'}
+// Update
+exports.update = function(name, obj) {
+	var res = 'NG';
+	console.log(obj[0]);
+	if (name == "")
+		return res;
 	
 	try {
 		var db = JSON.parse(fs.readFileSync(dbfile, 'utf8'));
@@ -89,7 +72,39 @@ exports.delete = function(name) {
 	catch(err) {
 		return res;
 	}
-	console.log('db.len='+db.length);
+	
+	if ((0 < db.length) && (db.length < MAX)) {
+		var index = diff(name, db);
+		if (index >= 0) {
+			// 当該レコードの名前以外を書き換え
+			var list =[];
+			var nameObj = {"name":name};
+			list.push(nameObj);
+			for (var i=0; i < 5; i++)
+				list.push(obj[i]);
+//			list.splice(0, 0, name, obj.age, obj.sex, obj.telnum, obj.addrnum, obj.addr);
+//			list.splice(0, 6, {"name":name}, obj[0], obj[1], obj[2], obj[3], obj[4]);
+			db[index] = list;
+			console.log('list:'+list);
+			fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
+			res = 'OK';
+		}
+	}
+	
+	return res;
+};
+
+// Delete
+exports.delete = function(name) {
+	var res = 'NG';
+	
+	try {
+		var db = JSON.parse(fs.readFileSync(dbfile, 'utf8'));
+	}
+	catch(err) {
+		return res;
+	}
+//	console.log('db.len='+db.length);
 	
 	if ((0 < db.length) && (db.length <= MAX)) {
 		if (remove(name, db) == false) {
@@ -98,7 +113,7 @@ exports.delete = function(name) {
 		
 		fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
 		
-		res.result = 'OK';
+		res = 'OK';
 	}
 	
 	return res;
@@ -113,12 +128,12 @@ function diff(name, db)
 {
 	for (var i = 0; i < db.length; i++) {
 		if(name === db[i].name) {
-			console.log('diff true:' + name);
-			return true;
+//			console.log('diff true:' + name + ' :' + i);
+			return i;
 		}
 	}
-	console.log('diff false:' + name);
-	return false;
+//	console.log('diff false:' + name);
+	return (-1);
 };
 
 // 同名データを削除
@@ -127,11 +142,11 @@ function remove(name, db)
 {
 	for (var i = 0; i < db.length; i++) {
 		if(name === db[i].name) {
-			console.log('remove true:' + name);
+//			console.log('remove true:' + name);
 			db.splice(i, 1);
 			return true;
 		}
 	}
-	console.log('remove false:' + name);
+//	console.log('remove false:' + name);
 	return false;
 };

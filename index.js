@@ -1,6 +1,6 @@
 // Sample Wab Application
 // -----------------------------------------
-// Server: Node.js + Express,js
+// Server: Node.js + Express.js
 // Client: Knockout.js
 
 var express = require('express');
@@ -13,15 +13,11 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-// WEBサーバー起動
-//var server = app.listen(80, function (){
+// *** WEBサーバー起動 ***
+// process.envを使わないとHerokuでApplication Errorになる
 var server = app.listen(process.env.PORT || 80, function (){
 	console.log('started Node&Express:' + server.address().port);
 });
-//var http = require('http');
-//http.createServer(app).listen(80);
-//console.log('started node & express...');
-
 
 // Root Page表示
 app.get('/', function() {
@@ -30,54 +26,43 @@ app.get('/', function() {
 });
 
 
-// 以下、WebAPI群
-app.get("/api/user/size", function(req, res, next){
-    // 
-    var cnt = svrmodel.count();
-	console.log('get size = ' + cnt.size);
-//	res.send('{"size":2}');
-	res.send(cnt);
+// *** 以下、WebAPI群 ***
+// 登録件数の取得
+app.get("/api/user/size", function(req, res){
+    var resdata = {};
+    resdata.size = svrmodel.count();
+    
+	res.send(resdata);
 });
-
-//var responseJson = '{ "results":[{"name":"yamada taro","age":44,"sex":"men","telnum":"000-000-0000","addrnum":"377-0000","addr":"Gunma Takasaki"},{"name":"suzuki jiro","age":24,"sex":"men","telnum":"000-020-0000","addrnum":"321-0000","addr":"Gunma Maebashi"}]}';
+// 全件取得
 app.get("/api/user/all", function(req, res){
-	res.send(svrmodel.get());
-});
-
-app.get("/api/user/:index", function(req, res, next){
-    // 
-    console.log('index = ' + req.params.index);
-	res.send('{"name":"yamada taro","age":44,"sex":"men","telnum":"000-000-0000","addrnum":"377-0000","addr":"Gunma Takasaki"}');
-});
-
-
-app.post("/api/user/", function(req, res, next){
-    // 
-    console.log('req='+req);
-    
-//    var body = JSON.parse(req.body);
-//    console.log('body='+body);
-    console.log('body='+req.body);
-    
-    console.log('name = ' + req.body.name);
-    console.log('age = ' + req.body.age);
-    console.log('sex = ' + req.body.sex);
-    console.log('telnum = ' + req.body.telnum);
-    console.log('addrnum = ' + req.body.addrnum);
-    console.log('addr = ' + req.body.addr);
-//	res.send('{"name"="yamada taro"}');
-//	res.send('{"result":"OK"}');
+	var resdata = {};
+	resdata.results = svrmodel.get();
 	
-	var result = svrmodel.set(req.body);
-	res.send(result);
+	res.send(resdata);
 });
-
-app.delete("/api/user/:name", function(req, res, next){
-    console.log('delete = ' + req.params.name);
+// 1件設定
+app.post("/api/user/", function(req, res){
+    console.log('create: ' + req.body.name);
 	
-//	res.send('{"result":"OK"}');
+	var resdata = {};
+	resdata.result = svrmodel.set(req.body);
+	res.send(resdata);
+});
+// 1件修正...PUTのBody部使えない！？？
+app.put("/api/user/:name", function(req, res){
+    console.log('update: ' + req.params.name);
+	console.log("body.name: "+req.body.name);
+	var resdata = {};
+	resdata.result = svrmodel.update(req.params.name, req.body);
+	res.send(resdata);
+});
+// 指定情報の削除
+app.delete("/api/user/:name", function(req, res){
+    console.log('delete: ' + req.params.name);
 	
-	var result = svrmodel.delete(req.params.name);
-	res.send(result);
+	var resdata = {};
+	resdata.result = svrmodel.delete(req.params.name);
+	res.send(resdata);
 });
 

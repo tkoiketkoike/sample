@@ -1,7 +1,5 @@
 // Knockout.js - Model
 
-//var baseHOST = 'localhost';		// Herokuサーバーに変える
-//var baseURL = 'http://' + baseHOST +'/api';
 const baseURL = location.href + 'api';
 
 var model = Object.create({}, {
@@ -24,7 +22,7 @@ var model = Object.create({}, {
 				dataType: 'json',
 				data: body,		// 送信データ
 		    	cache: false, 	// キャッシュさせない
-				async: false,	// true 非同期、false 同期
+				async: false,	// false 同期
 			}).done(function (result, type) { 
 				console.info('HTTP RESPONSE: '+type);
 				response = result;
@@ -42,12 +40,6 @@ var model = Object.create({}, {
 	//  - POST:		create
 	//  - DELETE:	delete
 	
-	// 総数の取得
-	getSize: {
-		value: function(){
-			return this._request('GET', baseURL + '/user/size', null);
-		}
-	},
 	// 1レコード作成
 	setRecord: {
 		value: function(record){
@@ -55,9 +47,15 @@ var model = Object.create({}, {
 		}
 	},
 	// 1レコード取得
-	getRecord: {
-		value: function(index){
-			return this._request('GET', baseURL + '/user/' + index, null);
+//	getRecord: {
+//		value: function(name){
+//			return this._request('GET', baseURL + '/user/' + name, null);
+//		}
+//	},
+	// 総数の取得
+	getSize: {
+		value: function(){
+			return this._request('GET', baseURL + '/user/size', null);
 		}
 	},
 	// 全レコード取得
@@ -67,15 +65,14 @@ var model = Object.create({}, {
 		}
 	},
 	// 1レコード修正
-//	createRecord: {
-//		value: function(record){
-//			return this._request('POST', baseURL + '/user', record);
-//		}
-//	},
+	updateRecord: {
+		value: function(name, record){
+			return this._request('PUT', baseURL + '/user/' + name, JSON.stringify(record));
+		}
+	},
 	// 1レコード削除
 	deleteRecord: {
 		value: function(name){
-//			return this._request('DELETE', baseURL + '/user', JSON.stringify(name));
 			return this._request('DELETE', baseURL + '/user/' + name, null);
 		}
 	}
