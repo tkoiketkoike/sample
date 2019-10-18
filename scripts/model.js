@@ -1,7 +1,8 @@
 // Knockout.js - Model
 
-var baseHOST = 'localhost';		// Herokuサーバーに変える
-var baseURL = 'http://' + baseHOST +'/api';
+//var baseHOST = 'localhost';		// Herokuサーバーに変える
+//var baseURL = 'http://' + baseHOST +'/api';
+const baseURL = location.href + 'api';
 
 var model = Object.create({}, {
 	// AJAX
