@@ -11,7 +11,7 @@ jobs:
       - run: npm install
       - run: npm test
   
-  deploy-heroku:
+  deploy_heroku:
     docker:
       - image: node:10.16.3
     
@@ -23,9 +23,9 @@ jobs:
 
 workflow:
  version 2
- build-deploy:
+ build_deploy:
   jobs:
    - build
-   - depoly-heroku:
+   - depoly_heroku:
      requires:
       - build
