@@ -11,6 +11,7 @@ var ViewModel = {
 	name: ko.observable(''),		// 名前
 	age: ko.observable(''),			// 年齢
 	sex: ko.observable(''),			// 性別
+    sexValues : ["","MAN", "WOMAN"],
 	telnum: ko.observable(''),		// 電話番号
 	addrnum: ko.observable(''),		// 郵便番号
 	addr: ko.observable(''),		// 
@@ -39,6 +40,10 @@ var ViewModel = {
 	// 1件作成
 	createButton: function() {
 		var req = {};
+		if (this.name() === "") {
+			console.warn("must");
+			return;
+		}
 		req.name = this.name();
 		req.age = this.age();
 		req.sex = this.sex();
@@ -48,7 +53,7 @@ var ViewModel = {
 		
 		var res = this.model.setRecord(req);
 		if (res.result !== "OK"){
-			msg("create fail..");
+			console.warn("create fail..");
 			return;
 		};
 		
