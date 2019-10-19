@@ -62,7 +62,6 @@ exports.count = function() {
 // Update
 exports.update = function(name, obj) {
 	var res = 'NG';
-	console.log(obj[0]);
 	if (name == "")
 		return res;
 	
@@ -73,22 +72,13 @@ exports.update = function(name, obj) {
 		return res;
 	}
 	
-	if ((0 < db.length) && (db.length < MAX)) {
-		var index = diff(name, db);
-		if (index >= 0) {
-			// 当該レコードの名前以外を書き換え
-			var list =[];
-			var nameObj = {"name":name};
-			list.push(nameObj);
-			for (var i=0; i < 5; i++)
-				list.push(obj[i]);
-//			list.splice(0, 0, name, obj.age, obj.sex, obj.telnum, obj.addrnum, obj.addr);
-//			list.splice(0, 6, {"name":name}, obj[0], obj[1], obj[2], obj[3], obj[4]);
-			db[index] = list;
-			console.log('list:'+list);
-			fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
-			res = 'OK';
-		}
+	var index = diff(name, db);
+	if (index >= 0) {
+		// 当該レコードの名前以外を書き換え
+		obj.name = name;
+		db[index] = obj;
+		fs.writeFileSync(dbfile, JSON.stringify(db, null, ''));
+		res = 'OK';
 	}
 	
 	return res;
@@ -104,7 +94,6 @@ exports.delete = function(name) {
 	catch(err) {
 		return res;
 	}
-//	console.log('db.len='+db.length);
 	
 	if ((0 < db.length) && (db.length <= MAX)) {
 		if (remove(name, db) == false) {
@@ -128,7 +117,6 @@ function diff(name, db)
 {
 	for (var i = 0; i < db.length; i++) {
 		if(name === db[i].name) {
-//			console.log('diff true:' + name + ' :' + i);
 			return i;
 		}
 	}
@@ -142,7 +130,6 @@ function remove(name, db)
 {
 	for (var i = 0; i < db.length; i++) {
 		if(name === db[i].name) {
-//			console.log('remove true:' + name);
 			db.splice(i, 1);
 			return true;
 		}

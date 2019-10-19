@@ -1,10 +1,13 @@
 // Knockout.js - ViewModel
 
+//import model from './model';
+
 // ------------------------
 // ViewModel
 var ViewModel = {
 	
-	model: Object.create(model),
+//	model: Object.create(model),
+	model: new model(),
 	
 	// Properties
 	name: ko.observable(''),		// –¼‘O
@@ -95,19 +98,6 @@ var ViewModel = {
 		//reset
 		this.init();
 	},
-	
-//	get: function() {
-//		var obj = this.model.getRecord();
-//		if (obj !== NULL){
-//			this.name(obj.name);
-//			this.age(obj.age);
-//			this.sex(obj.sex);
-//			this.telnum(obj.telnum);
-//			this.addrnum(obj.addrnum);
-//			this.addr(obj.addr);
-//		}
-//		return obj;
-//	},
 	
 	getAll: function() {
 		this.items.removeAll();
