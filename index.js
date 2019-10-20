@@ -43,18 +43,20 @@ app.get("/api/user/all", function(req, res){
 });
 // 1件設定
 app.post("/api/user/", function(req, res){
-    console.log('create: ' + req.body.name);
+	console.log('create: ' + req.body.name);
 	
 	var resdata = {};
 	resdata.result = svrmodel.set(req.body);
 	res.send(resdata);
 });
-// 1件修正...PUTのBody部使えない！？？
+// 1件修正
 app.put("/api/user/:name", function(req, res){
-    console.log('update: ' + req.params.name);
+	console.log('update: ' + req.params.name);
 	console.log("body.name: "+req.body.name);
+	
 	var resdata = {};
 	resdata.result = svrmodel.update(req.params.name, req.body);
+	
 	res.send(resdata);
 });
 // 指定情報の削除
@@ -63,6 +65,7 @@ app.delete("/api/user/:name", function(req, res){
 	
 	var resdata = {};
 	resdata.result = svrmodel.delete(req.params.name);
+	
 	res.send(resdata);
 });
 

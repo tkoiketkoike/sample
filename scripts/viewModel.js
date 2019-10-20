@@ -1,18 +1,12 @@
-// Knockout.js - ViewModel
+// Client side - ViewModel
 
-//import model from './model';
-
-// ------------------------
-// ViewModel
 var ViewModel = {
 	
-//	model: Object.create(model),
 	model: new model(),
 	
 	// Properties
 	name: ko.observable(''),		// 名前
 	age: ko.observable(''),			// 年齢
-//    ageValues : [,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40],
 	sex: ko.observable(''),			// 性別
     sexValues : ["","MAN", "WOMAN"],
 	telnum: ko.observable(''),		// 電話番号
@@ -37,11 +31,12 @@ var ViewModel = {
 	
 	// 1件作成
 	createButton: function() {
-		var req = {};
 		if (this.name() === "") {
 			console.warn("must");
 			return;
 		}
+		
+		var req = {};
 		req.name = this.name();
 		req.age = this.age();
 		req.sex = this.sex();
@@ -101,8 +96,10 @@ var ViewModel = {
 	
 	getAll: function() {
 		this.items.removeAll();
+		
 		var obj = this.model.getAll();
-		console.info("getAll() = " + obj.results.length);
+		//console.info("getAll() = " + obj.results.length);
+		
 		for (var i = 0; i < obj.results.length; i++) {
 			this.items.push(obj.results[i]);
 		}
@@ -118,6 +115,7 @@ var ViewModel = {
 		ViewModel.addrnum(item.addrnum);
 		ViewModel.addr(item.addr);
 	},
+	
 	clear: function() {
 		this.name('');
 		this.age('');

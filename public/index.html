@@ -2,60 +2,60 @@
 <html lang="ja">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta charset="utf-8" />
 	
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+
+	<script src="model.js"></script>
+	<script src="viewModel.js"></script>
 	
-    <script src="./model.js"></script>
-    <script src="viewModel.js"></script>
-	
-	<title>Sample Code</title>
+	<title>Sample Web Application</title>
 </head>
 
 <body>
-	<div>登録件数 <span data-bind='text: now'>&nbsp;</span> /<span data-bind='text: max'>件</div>
+	<div>登録件数 <span data-bind='text: now'></span> /<span data-bind='text: max'></span>件</div>
 	
 	<br>
 	氏名: <input data-bind="value: name" /><br>
-	年齢: <input data-bind="value: age" /><br>
-		<!--select data-bind="options: ageValues, value: age"></select><br-->
+	年齢: <input data-bind="value: age" />
 	性別: <select data-bind="options: sexValues, value: sex"></select><br>
 	電話番号: <input data-bind="value: telnum" /><br>
-	郵便番号: <input data-bind="value: addrnum" /><br>
+	郵便番号: <input data-bind="value: addrnum" />
 	住所: <input data-bind="value: addr" /><br>
 	
 	<button data-bind='click: createButton, disable: isRecordMax'>登録</button>
 	<button data-bind='click: updateButton, disable: isRecordEmpty'>修正</button>
 	<button data-bind='click: deleteButton, disable: isRecordEmpty'>削除</button>
 	
-	<!-- List -->
 	<br>
-    <div>
-        <table class="table-scroll" id="targetDataTable" style="width:800px">
-            <thead>
-                <tr data-bind="items().length">
-                    <th class="col-name">名前</th>
-                    <th class="col-age">年齢</th>
-                    <th class="col-sex">性別</th>
-                    <th class="col-telnum">電話番号</th>
-                    <th class="col-addrnum">郵便番号</th>
-                    <th class="col-addr">住所</th>
-                </tr>
-            </thead>
-            <tbody style="height:20px;" data-bind="foreach: items">
-                <tr data-bind="event:{click: $parent.selectRecord}">
-                    <td class="col-name" data-bind="text: $data.name"></td>
-                    <td class="col-age" data-bind="text: $data.age"></td>
-                    <td class="col-sex" data-bind="text: $data.sex"></td>
-                    <td class="col-telnum" data-bind="text: $data.telnum"></td>
-                    <td class="col-addrnum" data-bind="text: $data.addrnum"></td>
-                    <td class="col-addr" data-bind="text: $data.addr"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
+	※同じ氏名は登録できません。<br>
+	※下記リストをクリックし、修正、削除をして下さい。<br>
+	
+	<!-- List -->
+	<div>
+		<table class="table-scroll" id="targetDataTable" style="width:800px">
+			<thead>
+				<tr data-bind="items().length">
+					<th class="col-name">氏名</th>
+					<th class="col-age">年齢</th>
+					<th class="col-sex">性別</th>
+					<th class="col-telnum">電話番号</th>
+					<th class="col-addrnum">郵便番号</th>
+					<th class="col-addr">住所</th>
+				</tr>
+			</thead>
+			<tbody style="height:20px;" data-bind="foreach: items">
+				<tr data-bind="event:{click: $parent.selectRecord}">
+					<td class="col-name" data-bind="text: $data.name"></td>
+					<td class="col-age" data-bind="text: $data.age"></td>
+					<td class="col-sex" data-bind="text: $data.sex"></td>
+					<td class="col-telnum" data-bind="text: $data.telnum"></td>
+					<td class="col-addrnum" data-bind="text: $data.addrnum"></td>
+					<td class="col-addr" data-bind="text: $data.addr"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
 

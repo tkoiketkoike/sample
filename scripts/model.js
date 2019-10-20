@@ -1,4 +1,4 @@
-// Knockout.js - Model
+// Client side - Model
 const baseURL = location.href + 'api';
 
 class model 
